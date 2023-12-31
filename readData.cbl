@@ -3,31 +3,31 @@
        AUTHOR. SHREY.
        
        ENVIRONMENT DIVISION.
-           INPUT-OUTPUT SECTION.
-               FILE-CONTROL.
-               SELECT EMPLOYEE-FILE ASSIGN TO 'data'
-               ORGANIZATION IS LINE SEQUENTIAL.
+       INPUT-OUTPUT SECTION.
+       FILE-CONTROL.
+           SELECT EMPLOYEE-FILE ASSIGN TO 'data'
+           ORGANIZATION IS LINE SEQUENTIAL.
 
        DATA DIVISION.
-           FILE SECTION.
-           FD EMPLOYEE-FILE.
-           01 EMPLOYEE-RECORD.
-               05 E-ID PIC 9(8).
-               05 E-NAME PIC X(25).
-               05 E-CITY PIC X(20).
-               05 E-SALARY PIC 9(6).
+       FILE SECTION.
+       FD EMPLOYEE-FILE.
+       01 EMPLOYEE-RECORD.
+           05 E-ID PIC 9(8).
+           05 E-NAME PIC X(25).
+           05 E-CITY PIC X(20).
+           05 E-SALARY PIC 9(6).
        
-           WORKING-STORAGE SECTION. 
-           01 WS-EMPLOYEE.
-               05 WS-ID PIC 9(8).
-               05 WS-NAME PIC X(25).
-               05 WS-CITY PIC X(20).
-               05 WS-SALARY PIC 9(6).
-           01 WS-EOF PIC A(1). 
-           01 WS-INPUT-AREA.
-               05 WS-USERINPUT PIC S9(1) VALUE -1.
-               05 WS-USEREXTRA PIC X(79).
-                   88 input-rest-is-ok VALUE space.
+       WORKING-STORAGE SECTION. 
+       01 WS-EMPLOYEE.
+           05 WS-ID PIC 9(8).
+           05 WS-NAME PIC X(25).
+           05 WS-CITY PIC X(20).
+           05 WS-SALARY PIC 9(6).
+       01 WS-EOF PIC A(1). 
+       01 WS-INPUT-AREA.
+           05 WS-USERINPUT PIC S9(1) VALUE -1.
+           05 WS-USEREXTRA PIC X(79).
+               88 input-rest-is-ok VALUE space.
 
        PROCEDURE DIVISION.
        main section.
@@ -42,6 +42,7 @@
            DISPLAY "0) Exit".
            DISPLAY "(1/2/0): " WITH NO ADVANCING.
            ACCEPT WS-INPUT-AREA.
+
        choices.
            EVALUATE TRUE
            WHEN WS-USERINPUT NUMERIC AND input-rest-is-ok
@@ -55,9 +56,11 @@
                    WHEN OTHER
                        DISPLAY "INVALID INPUT!"
                        DISPLAY " "
+               END-EVALUATE
            WHEN OTHER
                DISPLAY "INVALID INPUT!"
-               DISPLAY " ".
+               DISPLAY " "
+           END-EVALUATE.
 
        actions section.
        display-all.
@@ -77,6 +80,7 @@
            DISPLAY " ".
        
        end-run.
+           DISPLAY "Thank You for using the program!"
            STOP RUN.
        
 
