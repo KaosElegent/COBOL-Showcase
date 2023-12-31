@@ -23,11 +23,17 @@
            05 WS-NAME PIC X(25).
            05 WS-CITY PIC X(20).
            05 WS-SALARY PIC 9(6).
-       01 WS-EOF PIC A(1). 
-       01 WS-INPUT-AREA.
+       01 WS-EOF PIC A(1).
+
+       01 WS-INPUT-CHOICE.
            05 WS-USERINPUT PIC S9(1) VALUE -1.
-           05 WS-USEREXTRA PIC X(79).
-               88 input-rest-is-ok VALUE space.
+           05 WS-USEREXTRA-1 PIC X(79).
+               88 input-is-ok-1 VALUE space.
+       
+       01 WS-INPUT-CITY.
+           05 WS-USERCITY PIC X(20).
+           05 WS-USEREXTRA-2 PIC X(60).
+              88 input-is-ok-2 VALUE space.
 
        PROCEDURE DIVISION.
        main section.
@@ -41,11 +47,11 @@
            DISPLAY "2) Display mean salary for every city".
            DISPLAY "0) Exit".
            DISPLAY "(1/2/0): " WITH NO ADVANCING.
-           ACCEPT WS-INPUT-AREA.
+           ACCEPT WS-INPUT-CHOICE.
 
        choices.
            EVALUATE TRUE
-           WHEN WS-USERINPUT NUMERIC AND input-rest-is-ok
+           WHEN WS-USERINPUT NUMERIC AND input-is-ok-1
                EVALUATE TRUE
                    WHEN WS-USERINPUT=1
                        PERFORM display-all
