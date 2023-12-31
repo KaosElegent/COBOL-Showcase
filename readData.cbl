@@ -44,7 +44,7 @@
        display-menu.
            DISPLAY "SELECT AN OPTION:".
            DISPLAY "1) Display all records".
-           DISPLAY "2) Display mean salary for every city".
+           DISPLAY "2) Display the mean salary for a city".
            DISPLAY "0) Exit".
            DISPLAY "(1/2/0): " WITH NO ADVANCING.
            ACCEPT WS-INPUT-CHOICE.
@@ -82,8 +82,16 @@
            DISPLAY " ".
 
        display-mean.
-           DISPLAY "UNDER WORK!"
-           DISPLAY " ".
+           DISPLAY "Enter a city name (for the mean salary): "
+           ACCEPT WS-CITY
+
+           EVALUATE TRUE
+           WHEN WS-USERCITY NUMERIC AND input-is-ok-2
+               
+           WHEN OTHER
+               DISPLAY "INVALID INPUT!"
+               DISPLAY " "
+           END-EVALUATE.
        
        end-run.
            DISPLAY "Thank You for using the program!"
