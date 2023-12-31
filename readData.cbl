@@ -34,6 +34,8 @@
            05 WS-USERCITY PIC X(20).
            05 WS-USEREXTRA-2 PIC X(60).
               88 input-is-ok-2 VALUE space.
+       01 WS-MEANSALARY PIC 9(7)v9(2) VALUE 0.
+       01 WS-DISPMEANSALARY PIC $(3),$(3).99.
 
        PROCEDURE DIVISION.
        main section.
@@ -82,15 +84,39 @@
            DISPLAY " ".
 
        display-mean.
-           DISPLAY "Enter a city name (for the mean salary): "
-           ACCEPT WS-CITY
-
+           DISPLAY "Enter a city name (0 to Exit): " WITH NO ADVANCING
+           ACCEPT WS-INPUT-CITY
+              
            EVALUATE TRUE
-           WHEN WS-USERCITY NUMERIC AND input-is-ok-2
-               
+           WHEN input-is-ok-2
+               EVALUATE TRUE
+               WHEN NOT WS-USERCITY='0'
+                 OPEN INPUT EMPLOYEE-FILE
+                 PERFORM UNTIL WS-EOF='Y'
+                 READ EMPLOYEE-FILE INTO WS-EMPLOYEE
+                     AT END MOVE 'Y' TO WS-EOF
+                     NOT AT END
+                     IF WS-USERCITY=WS-CITY
+                     COMPUTE WS-MEANSALARY=(WS-MEANSALARY+WS-SALARY)/2
+                     END-IF
+                 END-READ
+                 END-PERFORM
+                 MOVE 'N' TO WS-EOF
+                 CLOSE EMPLOYEE-FILE
+                 EVALUATE TRUE
+                 WHEN WS-MEANSALARY=0
+                    DISPLAY "Mean salary is zero!" WITH NO ADVANCING
+                    DISPLAY "(Maybe no records found with such city"
+                 WHEN OTHER
+                    MOVE WS-MEANSALARY TO WS-DISPMEANSALARY
+                    DISPLAY "Mean Salary for " WITH NO ADVANCING
+                    DISPLAY WS-USERCITY " is " WS-DISPMEANSALARY 
+                 END-EVALUATE
+               END-EVALUATE
            WHEN OTHER
                DISPLAY "INVALID INPUT!"
                DISPLAY " "
+               GO TO display-mean
            END-EVALUATE.
        
        end-run.
