@@ -107,10 +107,13 @@
                  WHEN WS-MEANSALARY=0
                     DISPLAY "Mean salary is zero!" WITH NO ADVANCING
                     DISPLAY "(Maybe no records found with such city"
+                    DISPLAY " "
                  WHEN OTHER
                     MOVE WS-MEANSALARY TO WS-DISPMEANSALARY
                     DISPLAY "Mean Salary for " WITH NO ADVANCING
-                    DISPLAY WS-USERCITY " is " WS-DISPMEANSALARY 
+                    DISPLAY WS-USERCITY " is " WS-DISPMEANSALARY
+                    DISPLAY " "
+                    MOVE 0 TO WS-MEANSALARY
                  END-EVALUATE
                END-EVALUATE
            WHEN OTHER
